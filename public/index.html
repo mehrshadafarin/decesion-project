@@ -355,8 +355,8 @@
       async function loadSentences() {
         try {
           const [yesData, noData] = await Promise.all([
-            fetch('./yes.json').then(res => res.json()),
-            fetch('./no.json').then(res => res.json())
+            fetch('/public/yes.json').then(res => res.json()),
+            fetch('/public/no.json').then(res => res.json())
           ]);
 
           if (!yesData || !Array.isArray(yesData) || yesData.length === 0) {
