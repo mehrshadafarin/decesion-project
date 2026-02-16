@@ -258,8 +258,23 @@
         gap: 10px;
         text-decoration: none;
         outline: none;
-        /* Remove tap highlight on mobile */
+        /* Remove tap highlight and selection on mobile */
         -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        /* Prevent focus outline on mobile tap */
+        -webkit-focus-ring-color: transparent;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      /* Remove any focus states */
+      .btn:focus,
+      .btn:focus-visible {
+        outline: none;
+        box-shadow: none;
       }
 
       .btn:hover {
@@ -289,6 +304,17 @@
         animation: spin 500ms ease-in-out;
       }
 
+      /* Continuous spin for loading state */
+      .btn.loading svg.spinning {
+        animation: spin 1s linear infinite;
+      }
+
+      /* Loading state for button */
+      .btn.loading {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
       @keyframes spin {
         from {
           transform: rotate(0deg);
@@ -315,12 +341,17 @@
 
       /* Responsive Design */
       @media (max-width: 600px) {
+        .container {
+          padding: 16px;
+        }
         .card {
           padding: 32px 20px;
+          border-radius: 24px;
         }
         .sentence {
           font-size: 1.5rem;
           line-height: 1.4;
+          margin-bottom: 32px;
         }
         .quote-icon {
           font-size: 50px;
@@ -332,8 +363,11 @@
           margin-bottom: 12px;
         }
         .btn {
-          padding: 12px 28px;
+          padding: 14px 28px;
           font-size: 0.9rem;
+          width: 100%;
+          justify-content: center;
+          max-width: 280px;
         }
         .btn svg {
           width: 16px;
@@ -341,19 +375,50 @@
         }
         .action-area {
           gap: 16px;
+          flex-direction: column;
+          align-items: center;
+        }
+        /* Optimize orbs for mobile */
+        .orb-1 {
+          width: 300px;
+          height: 300px;
+        }
+        .orb-2 {
+          width: 250px;
+          height: 250px;
+        }
+        .orb-3 {
+          width: 200px;
+          height: 200px;
         }
       }
 
       @media (max-width: 380px) {
         .card {
-          padding: 28px 16px;
+          padding: 24px 16px;
         }
         .sentence {
-          font-size: 1.3rem;
+          font-size: 1.25rem;
+          line-height: 1.3;
+        }
+        .quote-icon {
+          font-size: 40px;
+          margin-bottom: 12px;
         }
         .btn {
-          padding: 10px 24px;
+          padding: 12px 24px;
           font-size: 0.85rem;
+        }
+      }
+
+      /* Very small devices */
+      @media (max-width: 320px) {
+        .sentence {
+          font-size: 1.1rem;
+        }
+        .btn {
+          font-size: 0.8rem;
+          padding: 10px 20px;
         }
       }
     </style>
@@ -1035,8 +1100,22 @@
         }
       }
 
-      // Event listeners
-      newInspirationBtn.addEventListener('click', displayRandomSentence);
+      // Handle button click - spin first, then refresh
+      function handleRefreshClick() {
+        // Add loading class to button (disables it and changes opacity)
+        newInspirationBtn.classList.add('loading');
+        
+        // Add continuous spin animation to button icon
+        btnIcon.classList.add('spinning');
+        
+        // Wait 1.5 seconds to let user see the spin, then refresh
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
+
+      // Event listener - use handleRefreshClick instead of displayRandomSentence
+      newInspirationBtn.addEventListener('click', handleRefreshClick);
 
       // Load initial sentence on page load
       displayRandomSentence();
