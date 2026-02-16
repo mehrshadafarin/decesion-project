@@ -27,19 +27,20 @@ This project has been converted to a static site compatible with GitHub Pages de
 3. Under **Build and deployment** → **Source**, select **GitHub Actions**
 4. Click **Save**
 
-#### Option 1: Automatic Deployment (Recommended)
+**Note:** The GitHub Actions workflow will automatically deploy your site whenever you push to the `main` branch. You don't need to manually trigger the deployment.
 
-1. After enabling GitHub Pages, push your code to the `main` branch on GitHub
+#### After Enabling GitHub Pages:
+
+1. Push your code to the `main` branch on GitHub
 2. The GitHub Actions workflow will automatically deploy your site to GitHub Pages
 3. Your site will be available at: `https://<your-username>.github.io/<your-repo-name>/`
+4. Check the **Actions** tab in your repository to see the deployment progress
 
-#### Option 2: Manual Deployment
+#### Troubleshooting:
 
-1. Push your code to the `main` branch
-2. Go to your repository on GitHub
-3. Navigate to **Settings** → **Pages**
-4. Under **Build and deployment** → **Source**, select **GitHub Actions**
-5. The deployment will start automatically
+- If you see a "404" error, make sure you've enabled GitHub Pages in Settings → Pages
+- Check the **Actions** tab for any error messages
+- Wait a few minutes after pushing for the deployment to complete
 
 ## 📁 Project Structure
 
