@@ -47,9 +47,9 @@ This project has been converted to a static site compatible with GitHub Pages de
 ```
 .
 ├── public/
-│   └── index.html          # Main static HTML file
-├── yes.json                # YES category sentences
-├── no.json                 # NO category sentences
+│   ├── index.html          # Main static HTML file
+│   ├── yes.json            # YES category sentences
+│   └── no.json             # NO category sentences
 ├── package.json            # Project configuration
 ├── .github/
 │   └── workflows/
