@@ -1,20 +1,17 @@
 {
   "name": "sentence-display",
   "version": "1.0.0",
-  "description": "A simple app to display random sentences",
-  "main": "server.js",
+  "description": "A simple app to display random sentences - Static site for GitHub Pages",
+  "main": "public/index.html",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "npx serve public",
+    "dev": "npx serve public",
+    "build": "echo 'No build process needed for static site'"
   },
-  "keywords": ["express", "ejs", "sentences"],
+  "keywords": ["static", "github-pages", "sentences"],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.2",
-    "ejs": "^3.1.9"
-  },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "serve": "^14.2.0"
   }
 }
