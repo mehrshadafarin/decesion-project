@@ -258,6 +258,8 @@
         gap: 10px;
         text-decoration: none;
         outline: none;
+        /* Remove tap highlight on mobile */
+        -webkit-tap-highlight-color: transparent;
       }
 
       .btn:hover {
@@ -282,6 +284,20 @@
         transform: rotate(180deg);
       }
 
+      /* Spin animation for button icon */
+      .btn svg.spinning {
+        animation: spin 500ms ease-in-out;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
       /* Type Badge */
       .type-badge {
         display: inline-block;
@@ -300,13 +316,44 @@
       /* Responsive Design */
       @media (max-width: 600px) {
         .card {
-          padding: 40px 24px;
+          padding: 32px 20px;
         }
         .sentence {
-          font-size: 1.75rem;
+          font-size: 1.5rem;
+          line-height: 1.4;
         }
         .quote-icon {
-          font-size: 60px;
+          font-size: 50px;
+          margin-bottom: 16px;
+        }
+        .type-badge {
+          font-size: 0.7rem;
+          padding: 5px 14px;
+          margin-bottom: 12px;
+        }
+        .btn {
+          padding: 12px 28px;
+          font-size: 0.9rem;
+        }
+        .btn svg {
+          width: 16px;
+          height: 16px;
+        }
+        .action-area {
+          gap: 16px;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .card {
+          padding: 28px 16px;
+        }
+        .sentence {
+          font-size: 1.3rem;
+        }
+        .btn {
+          padding: 10px 24px;
+          font-size: 0.85rem;
         }
       }
     </style>
@@ -350,11 +397,12 @@
       const typeBadge = document.getElementById('typeBadge');
       const sentenceElement = document.getElementById('sentence');
       const newInspirationBtn = document.getElementById('newInspirationBtn');
+      const btnIcon = newInspirationBtn.querySelector('svg');
 
       // YES sentences
       const yesSentences = [
     "Absolutely — with bells on!",
-    "Do it like it’s 1999!",
+    "Do it like it's 1999!",
     "YES, and add sprinkles.",
     "Do it like a boss.",
     "Yes, but dance first.",
@@ -365,7 +413,7 @@
     "ABSO-YES!",
     "Yes if it feels right.",
     "A cautious yes.",
-    "Don’t do it… yet.",
+    "Don't do it… yet.",
     "Sure, but wear socks.",
     "Yes — bring glitter.",
     "Do it with flair!",
@@ -398,7 +446,7 @@
     "Sure — okay!",
     "Yes — high chance.",
     "Yes — big yay!",
-    "Don’t do it now.",
+    "Don't do it now.",
     "Yes if caffeine present.",
     "Yes — go wild.",
     "Yes with cookies.",
@@ -416,7 +464,7 @@
     "Yes — very likely.",
     "Yes — small yes.",
     "Yes — bright yes.",
-    "Don’t do it.",
+    "Don't do it.",
     "Yes — all systems go.",
     "Yes — cheerful yes!",
     "Maybe — bit unsure.",
@@ -424,7 +472,7 @@
     "Yes — totally.",
     "Yes — with fanfare.",
     "Yes — gentle push.",
-    "Yes — let’s roll.",
+    "Yes — let's roll.",
     "Maybe — calm yes.",
     "Yes — big yes!",
     "Yes — magical yes.",
@@ -451,15 +499,15 @@
     "Absolutely — future you will laugh.",
     "Do it like a side quest.",
     "Yes, but with emotional support snacks.",
-    "Do it, but don’t make eye contact.",
+    "Do it, but don't make eye contact.",
     "Yes… assuming chaos is acceptable.",
-    "Do it like nobody’s watching.",
+    "Do it like nobody's watching.",
     "The answer is yes-ish.",
     "Yes, and overcommit slightly.",
     "Absolutely not. Or yes. Hard to say.",
     "Do it, but only halfway.",
     "Yes, with unnecessary confidence.",
-    "Do it like it’s mildly illegal but isn’t.",
+    "Do it like it's mildly illegal but isn't.",
     "Yes, but sigh dramatically first.",
     "Go for it — cowardice is overrated.",
     "Yes, unless it involves effort.",
@@ -468,8 +516,8 @@
     "Do it, but blame fate.",
     "Yes, with low expectations.",
     "Yes. Chaos approves.",
-    "Do it like you’re in a montage.",
-    "Yes, but don’t overthink it.",
+    "Do it like you're in a montage.",
+    "Yes, but don't overthink it.",
     "Do it, but dramatically hesitate first.",
     "The answer is yes, but sneaky.",
     "Yes, if you promise not to regret it.",
@@ -478,29 +526,29 @@
     "Do it, but narrate your doubts.",
     "Yes — chaotically neutral.",
     "Yes, but keep expectations realistic.",
-    "Do it like it’s overdue.",
+    "Do it like it's overdue.",
     "Yes — with unnecessary flair.",
-    "Do it like it’s mildly impressive.",
+    "Do it like it's mildly impressive.",
     "Yes, but immediately question it.",
     "The universe says sure, I guess.",
     "Do it, but keep receipts.",
     "Yes — confidence loading.",
     "Yes, but quietly.",
-    "Do it like it’s already decided.",
+    "Do it like it's already decided.",
     "Yes — with dramatic eye contact.",
     "Do it, but with backup plans.",
     "Yes, if irony is allowed.",
     "The universe is indifferent, so go ahead.",
     "Do it like a controlled mess.",
     "Yes — lightly unhinged.",
-    "Do it like it’s inevitable.",
+    "Do it like it's inevitable.",
     "Yes, and pretend it was easy.",
     "Do it like you meant to.",
     "Yes — with cautious optimism.",
     "Do it, but expect consequences.",
     "Yes — this is your moment (maybe).",
     "Do it like a rehearsal.",
-    "Yes, but don’t tell anyone.",
+    "Yes, but don't tell anyone.",
     "Do it like a test run.",
     "Yes — barely.",
     "Do it with reckless calm.",
@@ -515,7 +563,7 @@
     "Yes — go on then.",
     "Do it like an inside joke.",
     "Yes — with low stakes.",
-    "Do it, but don’t rush.",
+    "Do it, but don't rush.",
     "Yes — carefully reckless.",
     "Do it like a backup plan.",
     "Yes, but expect confusion.",
@@ -531,7 +579,7 @@
     "Yes — with dramatic timing.",
     "Do it like a plot hole.",
     "Yes — unreasonably confident.",
-    "Do it like you’ll laugh later.",
+    "Do it like you'll laugh later.",
     "Yes — with mild chaos.",
     "Do it like a bold guess.",
     "Yes — approved reluctantly.",
@@ -541,7 +589,7 @@
     "Yes — with backup snacks.",
     "Do it like a side hustle.",
     "Yes — soft launch energy.",
-    "Do it like it’s overdue.",
+    "Do it like it's overdue.",
     "Yes — boldly average.",
     "Do it like a controlled risk.",
     "Yes — with dramatic restraint.",
@@ -592,17 +640,17 @@
     "Yes — with reserved excitement.",
     "Do it like a light leap.",
     "Yes — green-ish light.",
-    "Do it like it’s meant to be.",
+    "Do it like it's meant to be.",
     "Yes — with minimal drama.",
     "Yes — send it 🚀",
-    "Do it. What’s the worst that could happen?",
+    "Do it. What's the worst that could happen?",
     "Absolutely not. This is how regrets are born.",
     "Yes — let chaos take the wheel.",
-    "Do it. You clearly didn’t want peace today.",
-    "Yes, but don’t come crying later.",
+    "Do it. You clearly didn't want peace today.",
+    "Yes, but don't come crying later.",
     "Go ahead. Poor decisions build personality.",
     "Absolutely not. This ends badly.",
-    "Yes. Consequences are tomorrow’s problem.",
+    "Yes. Consequences are tomorrow's problem.",
     "Do it — therapy exists for a reason.",
     "Yes, if self-sabotage is the goal.",
     "Go for it. Rock bottom has great character arcs.",
@@ -614,32 +662,32 @@
     "Absolutely not. Touch grass instead.",
     "Do it — you seem determined.",
     "Yes, but this is on you.",
-    "Go ahead. Destiny’s laughing already.",
+    "Go ahead. Destiny's laughing already.",
     "Yes — make it spicy.",
     "Do it. Let the universe judge you.",
     "Yes, if chaos is your brand.",
     "Do it — character development awaits.",
-    "Yes. Make it future-you’s problem.",
+    "Yes. Make it future-you's problem.",
     "No. Absolutely not.",
     "Do it. Mistakes are educational.",
-    "Yes, but don’t say you weren’t warned.",
+    "Yes, but don't say you weren't warned.",
     "Go ahead. Rock bottom is cozy.",
     "Yes — lean into the disaster.",
     "Do it. The void is watching.",
     "Yes, but at your own risk.",
     "Do it. Learn the hard way.",
     "Yes — full chaos mode.",
-    "Do it — fate’s bored.",
+    "Do it — fate's bored.",
     "Yes. Burn the metaphorical bridge.",
     "Go for it. Regret is temporary (sometimes).",
     "Yes, if you like pain.",
     "Do it. Bad ideas need love too.",
     "Yes — consequences be damned.",
     "Do it. The spiral awaits.",
-    "Yes, but only because you won’t listen anyway.",
+    "Yes, but only because you won't listen anyway.",
     "Do it. Embrace the chaos.",
     "Yes — go ruin your peace.",
-    "Do it. What’s life without mistakes?",
+    "Do it. What's life without mistakes?",
     "Yes, but expect emotional damage.",
     "No — absolutely not.",
     "Do it. Curiosity killed the calm.",
@@ -655,7 +703,7 @@
       const noSentences = [
     "Maybe… ask again in a few minutes.",
     "Only if unicorns show up.",
-    "I’m not saying no… but maybe don’t.",
+    "I'm not saying no… but maybe don't.",
     "Nah, take a nap instead.",
     "Only if coffee is involved.",
     "Tomorrow sounds better.",
@@ -664,7 +712,7 @@
     "Ask again after breakfast.",
     "Definitely… said no one ever.",
     "Only if pizza is waiting.",
-    "Let’s wait for cosmic approval.",
+    "Let's wait for cosmic approval.",
     "Hold your horses.",
     "Nope — try sneezing first.",
     "Ask again tomorrow.",
@@ -672,25 +720,25 @@
     "Maybe… get snacks first.",
     "As long as ducks nod.",
     "Better not.",
-    "Let’s sleep on it.",
+    "Let's sleep on it.",
     "Only if you can juggle.",
     "My circuits say no.",
     "Ask the puppy.",
     "Maybe after coffee.",
-    "Only if it’s magical.",
+    "Only if it's magical.",
     "Shake a magic 8-ball first.",
     "Hard pass.",
     "A maybe wrapped in mystery.",
     "Ask again later.",
     "Not recommended by aliens.",
-    "Only if you’re awesome.",
+    "Only if you're awesome.",
     "Maybe… consult pizza.",
     "No… but hugs.",
     "Ask again next hour.",
     "Definitely not.",
     "Maybe in another life.",
     "Only if stars align.",
-    "Let’s wait a bit.",
+    "Let's wait a bit.",
     "Uhm… think again.",
     "A cautious maybe.",
     "Ask again soon.",
@@ -698,7 +746,7 @@
     "Wait for sign.",
     "Maybe… ask again.",
     "Only if curious.",
-    "Let’s chill first.",
+    "Let's chill first.",
     "Not advisable.",
     "Probably maybe.",
     "Maybe… but why?",
@@ -711,7 +759,7 @@
     "Maybe try later.",
     "Only if brave.",
     "Definitely nope.",
-    "Maybe… let’s see.",
+    "Maybe… let's see.",
     "Not yet.",
     "Maybe if lucky.",
     "Ask after lunch.",
@@ -771,7 +819,7 @@
     "The universe shrugged.",
     "No — dramatic pause — still no.",
     "Ask again when the moon feels right.",
-    "Probably. Don’t quote me.",
+    "Probably. Don't quote me.",
     "Not now. Destiny is buffering.",
     "No, but I respect the thought.",
     "Ask again after hydration.",
@@ -802,9 +850,9 @@
     "Ask again after caffeine.",
     "The answer fell behind the couch.",
     "No — protect future you.",
-    "No — today’s not built for that.",
+    "No — today's not built for that.",
     "Ask again after scrolling aimlessly.",
-    "No — this isn’t your villain arc.",
+    "No — this isn't your villain arc.",
     "The vibes whisper eh.",
     "No — trust the hesitation.",
     "Ask again after overthinking.",
@@ -827,7 +875,7 @@
     "The universe says your call.",
     "No — stand down.",
     "Ask again after staring at nothing.",
-    "No — this ain’t it.",
+    "No — this ain't it.",
     "The vibes took a lunch break.",
     "No — tomorrow exists.",
     "Ask again after doubting yourself.",
@@ -839,7 +887,7 @@
     "The answer is potentially.",
     "No — abort politely.",
     "Ask again after doomscrolling.",
-    "No — this ain’t the moment.",
+    "No — this ain't the moment.",
     "The universe raised an eyebrow.",
     "No — protect your sanity.",
     "Ask again after procrastinating.",
@@ -898,7 +946,7 @@
     "The vibes nodded slowly.",
     "No — save it.",
     "Ask again after wandering thoughts.",
-    "No — this isn’t the timeline.",
+    "No — this isn't the timeline.",
     "The universe blinked.",
     "No — pause recommended.",
     "Ask again after coffee.",
@@ -917,7 +965,7 @@
     "No. This is your warning sign.",
     "Nah. Choose survival.",
     "No — this is how villains start.",
-    "Hard pass. This ain’t it.",
+    "Hard pass. This ain't it.",
     "No. Abort mission immediately.",
     "No — the red flags are waving.",
     "Nope. Not even a little.",
@@ -931,19 +979,19 @@
     "No — your gut is screaming.",
     "No — this is the bad ending.",
     "No — choose peace for once.",
-    "Nope. This ain’t the move.",
+    "Nope. This ain't the move.",
     "No. Stop romanticizing bad ideas.",
-    "No — this is not brave, it’s dumb.",
+    "No — this is not brave, it's dumb.",
     "No — common sense called.",
     "No — abort before impact.",
     "No. Choose sanity.",
-    "No — this won’t end well.",
+    "No — this won't end well.",
     "No — your future self hates this.",
-    "No — don’t confuse impulse with destiny.",
+    "No — don't confuse impulse with destiny.",
     "Nope. Sit this one out.",
     "No — this is self-inflicted.",
     "No — choose the less stupid option.",
-    "No — stop before it’s a lesson.",
+    "No — stop before it's a lesson.",
     "No — this screams bad decision.",
     "No — save yourself.",
     "No. Walk away dramatically.",
@@ -965,6 +1013,14 @@
 
       // Display a random sentence
       function displayRandomSentence() {
+        // Add spin animation to button icon
+        btnIcon.classList.add('spinning');
+        
+        // Remove the animation class after it completes
+        setTimeout(() => {
+          btnIcon.classList.remove('spinning');
+        }, 500);
+
         // Randomly decide between yes and no
         const type = Math.random() < 0.5 ? 'yes' : 'no';
         const selectedSentences = type === 'yes' ? yesSentences : noSentences;
